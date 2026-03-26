@@ -7,18 +7,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* --- VARIABLES DE TEMA --- */
         :root {
+            /* Modo Oscuro (Por defecto, basado en tu imagen) */
             --bg-color: #16162a;
             --card-bg: #22223b;
             --text-main: #ffffff;
             --text-muted: #8b8ea5;
             --border-color: rgba(255, 255, 255, 0.1);
+            
+            /* Colores Dinámicos (Se actualizan por JS) */
             --color-left: #00d4ff;
             --color-right: #a64bf4;
-            --menu-width: 280px;
         }
 
         [data-theme="light"] {
+            /* Modo Claro */
             --bg-color: #f4f5f9;
             --card-bg: #ffffff;
             --text-main: #1a1a2e;
@@ -42,165 +46,7 @@
             padding: 20px;
         }
 
-        /* ========== MENÚ LATERAL ========== */
-        .menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(4px);
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.35s ease;
-        }
-
-        .menu-overlay.open {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .side-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: var(--menu-width);
-            background: var(--card-bg);
-            z-index: 101;
-            transform: translateX(-100%);
-            transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 6px 0 40px rgba(0,0,0,0.4);
-            overflow: hidden;
-        }
-
-        .side-menu.open {
-            transform: translateX(0);
-        }
-
-        /* Cabecera del menú con gradiente dinámico */
-        .menu-header {
-            padding: 40px 25px 30px;
-            background: linear-gradient(135deg, var(--color-left), var(--color-right));
-            position: relative;
-        }
-
-        .menu-header-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #fff;
-            line-height: 1.2;
-        }
-
-        .menu-header-sub {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.75);
-            margin-top: 4px;
-        }
-
-        .menu-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: #fff;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .menu-close-btn:hover { background: rgba(255,255,255,0.35); }
-
-        /* Sección de items del menú */
-        .menu-section {
-            padding: 20px 0;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .menu-section-title {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 0 25px 10px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 25px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.92rem;
-            font-weight: 600;
-            transition: background 0.2s, color 0.2s;
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .menu-item:hover {
-            background: var(--border-color);
-        }
-
-        .menu-item .menu-icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--color-left), var(--color-right));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            color: #fff;
-            flex-shrink: 0;
-            transition: background 0.5s;
-        }
-
-        .menu-item.secondary .menu-icon-box {
-            background: var(--border-color);
-        }
-
-        .menu-item .menu-item-text { flex: 1; }
-        .menu-item .menu-item-badge {
-            font-size: 0.65rem;
-            background: linear-gradient(135deg, var(--color-left), var(--color-right));
-            color: #fff;
-            padding: 2px 8px;
-            border-radius: 50px;
-            font-weight: 600;
-        }
-
-        .menu-divider {
-            height: 1px;
-            background: var(--border-color);
-            margin: 8px 20px;
-        }
-
-        .menu-footer {
-            padding: 20px 25px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .menu-footer-text {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        /* ========== HEADER PRINCIPAL ========== */
+        /* --- HEADER Y BOTÓN THEME --- */
         .top-nav {
             width: 100%;
             max-width: 500px;
@@ -210,7 +56,7 @@
             margin-bottom: 30px;
         }
 
-        .menu-icon-btn, .theme-btn {
+        .menu-icon, .theme-btn {
             font-size: 1.5rem;
             color: var(--text-muted);
             cursor: pointer;
@@ -218,32 +64,10 @@
             background: none;
             border: none;
         }
+        
+        .theme-btn:hover, .menu-icon:hover { color: var(--text-main); }
 
-        .menu-icon-btn:hover, .theme-btn:hover { color: var(--text-main); }
-
-        /* Badge de reproducción en segundo plano */
-        .bg-badge {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, var(--color-left), var(--color-right));
-            color: #fff;
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 50px;
-            letter-spacing: 0.5px;
-            animation: pulse-badge 2s infinite;
-        }
-
-        .bg-badge.visible { display: flex; }
-
-        @keyframes pulse-badge {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* ========== ORÁCULO ========== */
+        /* --- APP CONTAINER --- */
         .app-container {
             width: 100%;
             max-width: 500px;
@@ -252,6 +76,7 @@
             align-items: center;
         }
 
+        /* --- ORÁCULO (Texto Superior) --- */
         .oracle-section {
             text-align: center;
             margin-bottom: 40px;
@@ -284,7 +109,6 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
         .btn-oracle:hover { border-color: var(--text-main); color: var(--text-main); }
 
         .oracle-result {
@@ -296,7 +120,7 @@
             min-height: 60px;
         }
 
-        /* ========== VISUALIZADOR ========== */
+        /* --- VISUALIZADOR DE ONDAS --- */
         .visualizer {
             display: flex;
             align-items: center;
@@ -314,13 +138,16 @@
             transition: height 0.2s ease, background-color 0.5s ease, box-shadow 0.5s ease;
         }
 
+        /* Colorear mitad izquierda y derecha */
         .bar:nth-child(-n+15) { background-color: var(--color-left); }
         .bar:nth-child(n+16) { background-color: var(--color-right); }
 
+        /* Animación cuando está reproduciendo */
         .visualizer.playing .bar {
             animation: soundWave 1.2s infinite ease-in-out alternate;
         }
 
+        /* Sombras al reproducir */
         .visualizer.playing .bar:nth-child(-n+15) { box-shadow: 0 0 10px var(--color-left); }
         .visualizer.playing .bar:nth-child(n+16) { box-shadow: 0 0 10px var(--color-right); }
 
@@ -329,13 +156,14 @@
             100% { height: 100px; }
         }
 
-        /* ========== BOTÓN PLAY ========== */
+        /* --- BOTÓN PLAY GIGANTE --- */
         .play-ring {
             width: 100px;
             height: 100px;
             border-radius: 50%;
+            /* El borde toma el gradiente de ambas frecuencias */
             background: linear-gradient(to right, var(--color-left), var(--color-right));
-            padding: 3px;
+            padding: 3px; /* Grosor del borde */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -360,7 +188,7 @@
             transition: background-color 0.4s ease;
         }
 
-        /* ========== SELECTORES ========== */
+        /* --- SELECTORES INFERIORES (Estilo App) --- */
         .selectors-container {
             display: flex;
             justify-content: space-between;
@@ -368,7 +196,10 @@
             gap: 20px;
         }
 
-        .selector-box { flex: 1; text-align: center; }
+        .selector-box {
+            flex: 1;
+            text-align: center;
+        }
 
         .selector-label {
             font-size: 0.7rem;
@@ -391,9 +222,9 @@
             text-align-last: center;
             outline: none;
             cursor: pointer;
-            appearance: none;
+            appearance: none; /* Oculta la flecha por defecto */
         }
-
+        
         .freq-select option {
             background: var(--bg-color);
             color: var(--text-main);
@@ -403,7 +234,7 @@
         .selector-box.left .freq-select { color: var(--color-left); }
         .selector-box.right .freq-select { color: var(--color-right); }
 
-        /* ========== VOLUMEN ========== */
+        /* Controles de Volumen (Ocultos pero funcionales) */
         .volume-control {
             margin-top: 40px;
             display: flex;
@@ -413,7 +244,7 @@
             width: 100%;
             max-width: 300px;
         }
-
+        
         input[type="range"] {
             flex: 1;
             accent-color: var(--text-muted);
@@ -426,63 +257,15 @@
 </head>
 <body>
 
-    <!-- ========== OVERLAY + MENÚ LATERAL ========== -->
-    <div class="menu-overlay" id="menu-overlay" onclick="closeMenu()"></div>
-
-    <nav class="side-menu" id="side-menu">
-        <div class="menu-header">
-            <button class="menu-close-btn" onclick="closeMenu()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="menu-header-title">Sincronizador<br>Binaural</div>
-            <div class="menu-header-sub">Versión 1.0</div>
-        </div>
-
-        <div class="menu-section">
-            <p class="menu-section-title">Aplicaciones</p>
-
-            <a href="https://frecuencias-sanadoras-ingreso.netlify.app/login.html"
-               target="_blank" class="menu-item">
-                <div class="menu-icon-box">
-                    <i class="fas fa-wave-square"></i>
-                </div>
-                <span class="menu-item-text">Reproductor de Frecuencias</span>
-                <span class="menu-item-badge">1.0</span>
-            </a>
-
-            <div class="menu-divider"></div>
-
-            <p class="menu-section-title">Ajustes</p>
-
-            <button class="menu-item secondary" onclick="toggleTheme(); closeMenu();">
-                <div class="menu-icon-box" id="menu-theme-icon-box">
-                    <i class="fas fa-sun" id="menu-theme-icon"></i>
-                </div>
-                <span class="menu-item-text">Cambiar Tema</span>
-            </button>
-        </div>
-
-        <div class="menu-footer">
-            <p class="menu-footer-text">© 2025 Sincronizador Binaural · Todos los derechos reservados</p>
-        </div>
-    </nav>
-
-    <!-- ========== NAVEGACIÓN SUPERIOR ========== -->
     <div class="top-nav">
-        <button class="menu-icon-btn" onclick="openMenu()" aria-label="Menú">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="bg-badge" id="bg-badge">
-            <i class="fas fa-headphones"></i> Sonando en segundo plano
-        </div>
+        <i class="fas fa-bars menu-icon"></i>
         <button class="theme-btn" onclick="toggleTheme()" id="theme-icon">
             <i class="fas fa-sun"></i>
         </button>
     </div>
 
-    <!-- ========== APP PRINCIPAL ========== -->
     <div class="app-container">
-
+        
         <div class="oracle-section">
             <input type="text" id="oracle-input" class="oracle-input" placeholder="Ej: Siento estrés, deudas o ansiedad...">
             <button class="btn-oracle" onclick="analyzeEnergy()">Generar Sinergia</button>
@@ -491,7 +274,8 @@
             </div>
         </div>
 
-        <div class="visualizer" id="visualizer"></div>
+        <div class="visualizer" id="visualizer">
+            </div>
 
         <div class="play-ring" onclick="toggleMasterPlay()">
             <div class="play-btn-inner" id="play-btn">
@@ -504,6 +288,7 @@
                 <span class="selector-label">Oído Izquierdo</span>
                 <select id="select-left" class="freq-select" onchange="updateUI()"></select>
             </div>
+            
             <div class="selector-box right">
                 <span class="selector-label">Oído Derecho</span>
                 <select id="select-right" class="freq-select" onchange="updateUI()"></select>
@@ -522,236 +307,235 @@
     <audio id="audio-right" loop crossorigin="anonymous"></audio>
 
     <script>
-        // ========== BASE DE DATOS ==========
+        // --- BASE DE DATOS (CON COLORES DINÁMICOS) ---
         const frequencies = [
-            { id: "111", hz: "111 Hz", desc: "Paz",       color: "#f5f6fa", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/111+Hz.mp3?v=1" },
-            { id: "174", hz: "174 Hz", desc: "Alivio",    color: "#d4af37", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/174+Hz.mp3?v=1" },
-            { id: "285", hz: "285 Hz", desc: "Aura",      color: "#ff4757", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/285+Hz.mp3?v=1" },
-            { id: "396", hz: "396 Hz", desc: "Valor",     color: "#ff6b81", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/396+Hz.mp3?v=1" },
-            { id: "417", hz: "417 Hz", desc: "Cambio",    color: "#ffa502", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/417+Hz.mp3?v=1" },
-            { id: "432", hz: "432 Hz", desc: "Armonía",   color: "#1e90ff", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/432+Hz.mp3?v=1" },
-            { id: "528", hz: "528 Hz", desc: "Amor",      color: "#2ed573", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/528+Hz.mp3?v=1" },
-            { id: "639", hz: "639 Hz", desc: "Unión",     color: "#ff7f50", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/639+Hz.mp3?v=1" },
+            { id: "111", hz: "111 Hz", desc: "Paz", color: "#f5f6fa", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/111+Hz.mp3?v=1" },
+            { id: "174", hz: "174 Hz", desc: "Alivio", color: "#d4af37", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/174+Hz.mp3?v=1" },
+            { id: "285", hz: "285 Hz", desc: "Aura", color: "#ff4757", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/285+Hz.mp3?v=1" },
+            { id: "396", hz: "396 Hz", desc: "Valor", color: "#ff6b81", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/396+Hz.mp3?v=1" },
+            { id: "417", hz: "417 Hz", desc: "Cambio", color: "#ffa502", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/417+Hz.mp3?v=1" },
+            { id: "432", hz: "432 Hz", desc: "Armonía", color: "#1e90ff", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/432+Hz.mp3?v=1" },
+            { id: "528", hz: "528 Hz", desc: "Amor", color: "#2ed573", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/528+Hz.mp3?v=1" },
+            { id: "639", hz: "639 Hz", desc: "Unión", color: "#ff7f50", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/639+Hz.mp3?v=1" },
             { id: "741", hz: "741 Hz", desc: "Intuición", color: "#7bed9f", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/741+Hz.mp3?v=1" },
-            { id: "852", hz: "852 Hz", desc: "Visión",    color: "#3742fa", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/852+Hz.mp3?v=1" },
-            { id: "888", hz: "888 Hz", desc: "Riqueza",   color: "#f1c40f", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/888+Hz.mp3?v=1" },
-            { id: "963", hz: "963 Hz", desc: "Divino",    color: "#9c88ff", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/963+Hz.mp3?v=1" },
-            { id: "999", hz: "999 Hz", desc: "Cierre",    color: "#eccc68", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/999+Hz.mp3?v=1" }
+            { id: "852", hz: "852 Hz", desc: "Visión", color: "#3742fa", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/852+Hz.mp3?v=1" },
+            { id: "888", hz: "888 Hz", desc: "Riqueza", color: "#f1c40f", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/888+Hz.mp3?v=1" },
+            { id: "963", hz: "963 Hz", desc: "Divino", color: "#9c88ff", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/963+Hz.mp3?v=1" },
+            { id: "999", hz: "999 Hz", desc: "Cierre", color: "#eccc68", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/999+Hz.mp3?v=1" }
         ];
 
-        // ========== REFERENCIAS ==========
-        const selectLeft  = document.getElementById('select-left');
+        // REFERENCIAS
+        const selectLeft = document.getElementById('select-left');
         const selectRight = document.getElementById('select-right');
-        const audioL      = document.getElementById('audio-left');
-        const audioR      = document.getElementById('audio-right');
-        const playBtn     = document.getElementById('play-btn');
-        const volSlider   = document.getElementById('vol-slider');
-        const visualizer  = document.getElementById('visualizer');
-        const bgBadge     = document.getElementById('bg-badge');
-        const rootVars    = document.documentElement.style;
+        const audioL = document.getElementById('audio-left');
+        const audioR = document.getElementById('audio-right');
+        const playBtn = document.getElementById('play-btn');
+        const volSlider = document.getElementById('vol-slider');
+        const visualizer = document.getElementById('visualizer');
+        const rootVars = document.documentElement.style;
 
         let isPlaying = false;
         let currentL_ID = null;
         let currentR_ID = null;
+        
         let audioCtx, pannerL, pannerR;
         let isAudioApiInitialized = false;
-        let wakeLock = null;
 
-        // ========== MENÚ LATERAL ==========
-        function openMenu() {
-            document.getElementById('side-menu').classList.add('open');
-            document.getElementById('menu-overlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMenu() {
-            document.getElementById('side-menu').classList.remove('open');
-            document.getElementById('menu-overlay').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        // ========== VISUALIZADOR ==========
+        // 1. GENERAR BARRAS DEL VISUALIZADOR
         function createVisualizer() {
-            for (let i = 0; i < 30; i++) {
+            for(let i = 0; i < 30; i++) {
                 let bar = document.createElement('div');
                 bar.classList.add('bar');
-                bar.style.height = (Math.floor(Math.random() * 20) + 10) + 'px';
+                // Alturas base aleatorias
+                let baseHeight = Math.floor(Math.random() * 20) + 10;
+                bar.style.height = baseHeight + 'px';
+                // Delay aleatorio para efecto de onda real
                 bar.style.animationDelay = (Math.random() * 1.5) + 's';
-                bar.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
                 visualizer.appendChild(bar);
             }
         }
 
-        // ========== SELECTORES ==========
+        // 2. INICIALIZAR SELECTORES
         function initSelectors() {
             frequencies.forEach(f => {
                 selectLeft.add(new Option(`${f.hz} - ${f.desc}`, f.id));
                 selectRight.add(new Option(`${f.hz} - ${f.desc}`, f.id));
             });
-            selectLeft.value  = "432";
+            selectLeft.value = "432";
             selectRight.value = "888";
             updateUI();
         }
 
         function getFreqById(id) { return frequencies.find(f => f.id === id); }
 
-        // ========== ACTUALIZAR UI ==========
+        // 3. ACTUALIZAR COLORES Y AUDIOS
         function updateUI() {
             const fL = getFreqById(selectLeft.value);
             const fR = getFreqById(selectRight.value);
-
-            rootVars.setProperty('--color-left',  fL.color);
+            
+            // Llamamos a la API de Media Session para actualizar la info en pantalla de bloqueo
+            updateMediaMetadata(fL, fR);
+            
+            // Actualizar Variables CSS (Colores)
+            rootVars.setProperty('--color-left', fL.color);
             rootVars.setProperty('--color-right', fR.color);
-
+            
             let trackChanged = false;
-            if (currentL_ID !== fL.id) { audioL.src = fL.url; audioL.load(); currentL_ID = fL.id; trackChanged = true; }
-            if (currentR_ID !== fR.id) { audioR.src = fR.url; audioR.load(); currentR_ID = fR.id; trackChanged = true; }
 
-            if (isPlaying && trackChanged) {
+            if (currentL_ID !== fL.id) {
+                audioL.src = fL.url;
+                audioL.load();
+                currentL_ID = fL.id;
+                trackChanged = true;
+            }
+
+            if (currentR_ID !== fR.id) {
+                audioR.src = fR.url;
+                audioR.load();
+                currentR_ID = fR.id;
+                trackChanged = true;
+            }
+
+            if(isPlaying && trackChanged) {
                 audioL.play().catch(e => console.log(e));
                 audioR.play().catch(e => console.log(e));
             }
-
-            // Actualiza Media Session si está activo
-            if (isPlaying) updateMediaSession(fL, fR);
         }
 
-        // ========== WEB AUDIO API (STEREO PANNING) ==========
+        // 4. MOTOR BINAURAL (STEREO PANNING)
         function initWebAudioAPI() {
-            if (isAudioApiInitialized) return;
+            if(isAudioApiInitialized) return;
+
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             audioCtx = new AudioContext();
 
             const trackL = audioCtx.createMediaElementSource(audioL);
             const trackR = audioCtx.createMediaElementSource(audioR);
 
-            if (audioCtx.createStereoPanner) {
-                pannerL = audioCtx.createStereoPanner(); pannerL.pan.value = -1;
-                pannerR = audioCtx.createStereoPanner(); pannerR.pan.value =  1;
+            if(audioCtx.createStereoPanner) {
+                pannerL = audioCtx.createStereoPanner();
+                pannerL.pan.value = -1; // 100% Izquierdo
+                pannerR = audioCtx.createStereoPanner();
+                pannerR.pan.value = 1;  // 100% Derecho
             } else {
                 pannerL = audioCtx.createPanner(); pannerL.setPosition(-1, 0, 0);
-                pannerR = audioCtx.createPanner(); pannerR.setPosition( 1, 0, 0);
+                pannerR = audioCtx.createPanner(); pannerR.setPosition(1, 0, 0);
             }
 
             trackL.connect(pannerL).connect(audioCtx.destination);
             trackR.connect(pannerR).connect(audioCtx.destination);
+
             isAudioApiInitialized = true;
         }
 
-        // ========== MEDIA SESSION API (segundo plano) ==========
-        function updateMediaSession(fL, fR) {
-            if (!('mediaSession' in navigator)) return;
-
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: `${fL.hz} · ${fR.hz}`,
-                artist: 'Sincronizador Binaural',
-                album: `${fL.desc} & ${fR.desc}`,
-                artwork: [
-                    { src: 'https://via.placeholder.com/512/16162a/a64bf4?text=♫', sizes: '512x512', type: 'image/png' }
-                ]
-            });
-
-            navigator.mediaSession.setActionHandler('play',  () => { if (!isPlaying) toggleMasterPlay(); });
-            navigator.mediaSession.setActionHandler('pause', () => { if  (isPlaying) toggleMasterPlay(); });
-            navigator.mediaSession.setActionHandler('stop',  () => { if  (isPlaying) toggleMasterPlay(); });
-        }
-
-        // ========== WAKE LOCK (evitar que la pantalla se apague) ==========
-        async function requestWakeLock() {
-            if (!('wakeLock' in navigator)) return;
-            try {
-                wakeLock = await navigator.wakeLock.request('screen');
-                wakeLock.addEventListener('release', () => { wakeLock = null; });
-            } catch (err) { console.log('WakeLock no disponible:', err); }
-        }
-
-        function releaseWakeLock() {
-            if (wakeLock) { wakeLock.release(); wakeLock = null; }
-        }
-
-        // Re-solicitar WakeLock al volver a la página
-        document.addEventListener('visibilitychange', async () => {
-            if (document.visibilityState === 'visible' && isPlaying) {
-                await requestWakeLock();
-            }
-        });
-
-        // ========== PLAY / PAUSE ==========
-        async function toggleMasterPlay() {
+        // 5. PLAY / PAUSE
+        function toggleMasterPlay() {
             initWebAudioAPI();
-            if (audioCtx.state === 'suspended') await audioCtx.resume();
+            if(audioCtx.state === 'suspended') audioCtx.resume();
 
             if (isPlaying) {
                 audioL.pause();
                 audioR.pause();
                 playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 5px;"></i>';
                 visualizer.classList.remove('playing');
-                bgBadge.classList.remove('visible');
-                releaseWakeLock();
-                if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
             } else {
                 updateUI();
                 audioL.play().catch(e => console.log("CORS/Autoplay L"));
                 audioR.play().catch(e => console.log("CORS/Autoplay R"));
+                
                 playBtn.innerHTML = '<i class="fas fa-pause"></i>';
                 visualizer.classList.add('playing');
-                bgBadge.classList.add('visible');
-                await requestWakeLock();
-                const fL = getFreqById(selectLeft.value);
-                const fR = getFreqById(selectRight.value);
-                updateMediaSession(fL, fR);
-                if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
             }
             isPlaying = !isPlaying;
         }
 
-        // ========== VOLUMEN ==========
+        // 6. VOLUMEN
         function changeVolume() {
             audioL.volume = volSlider.value;
             audioR.volume = volSlider.value;
         }
 
-        // ========== TEMA ==========
+        // 7. MODO CLARO / OSCURO
         function toggleTheme() {
-            const body      = document.body;
-            const icon      = document.getElementById('theme-icon');
-            const menuIcon  = document.getElementById('menu-theme-icon');
-
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
             if (body.getAttribute('data-theme') === 'light') {
                 body.removeAttribute('data-theme');
-                icon.className     = 'fas fa-sun';
-                menuIcon.className = 'fas fa-sun';
+                themeIcon.innerHTML = '<i class="fas fa-sun"></i>';
             } else {
                 body.setAttribute('data-theme', 'light');
-                icon.className     = 'fas fa-moon';
-                menuIcon.className = 'fas fa-moon';
+                themeIcon.innerHTML = '<i class="fas fa-moon"></i>';
             }
         }
 
-        // ========== ORÁCULO ==========
+        // 8. ORÁCULO
         function analyzeEnergy() {
-            const input      = document.getElementById('oracle-input').value.toLowerCase();
+            const input = document.getElementById('oracle-input').value.toLowerCase();
             const resultText = document.getElementById('oracle-result');
+            
+            if(input.length < 3) {
+                alert("Cuéntame qué deseas sanar o manifestar.");
+                return;
+            }
 
-            if (input.length < 3) { alert("Cuéntame qué deseas sanar o manifestar."); return; }
+            let recLeft = "432"; let recRight = "888";
+            let msg = "Alineación General Detectada.";
 
-            let recLeft = "432", recRight = "888", msg = "Alineación General Detectada.";
-
-            if (["dinero","deuda","abundancia","ventas"].some(w => input.includes(w)))       { recLeft = "432"; recRight = "888"; msg = "Sinergia de Abundancia lista."; }
-            else if (["ansiedad","miedo","estres","dormir"].some(w => input.includes(w)))    { recLeft = "396"; recRight = "111"; msg = "Sinergia de Paz y Liberación lista."; }
-            else if (["salud","dolor","sanar"].some(w => input.includes(w)))                 { recLeft = "174"; recRight = "528"; msg = "Sinergia de Restauración Física lista."; }
-            else if (["amor","pareja","soledad"].some(w => input.includes(w)))               { recLeft = "639"; recRight = "528"; msg = "Sinergia de Amor y Conexión lista."; }
+            if(["dinero", "deuda", "abundancia", "ventas"].some(w => input.includes(w))) {
+                recLeft = "432"; recRight = "888";
+                msg = "Sinergia de Abundancia lista.";
+            } else if(["ansiedad", "miedo", "estres", "dormir"].some(w => input.includes(w))) {
+                recLeft = "396"; recRight = "111";
+                msg = "Sinergia de Paz y Liberación lista.";
+            } else if(["salud", "dolor", "sanar"].some(w => input.includes(w))) {
+                recLeft = "174"; recRight = "528";
+                msg = "Sinergia de Restauración Física lista.";
+            } else if(["amor", "pareja", "soledad"].some(w => input.includes(w))) {
+                recLeft = "639"; recRight = "528";
+                msg = "Sinergia de Amor y Conexión lista.";
+            }
 
             resultText.innerHTML = msg;
-            selectLeft.value  = recLeft;
+            
+            // Aplicar automáticamente
+            selectLeft.value = recLeft;
             selectRight.value = recRight;
             updateUI();
-            if (!isPlaying) toggleMasterPlay();
+            if(!isPlaying) toggleMasterPlay();
         }
 
-        // ========== ARRANQUE ==========
+        // 9. REPRODUCCIÓN EN SEGUNDO PLANO (MEDIA SESSION API)
+        function initMediaSession() {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.setActionHandler('play', () => {
+                    if (!isPlaying) toggleMasterPlay();
+                });
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    if (isPlaying) toggleMasterPlay();
+                });
+            }
+        }
+
+        function updateMediaMetadata(fL, fR) {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: `Sinergia: ${fL.desc} y ${fR.desc}`,
+                    artist: 'NeuroSync',
+                    album: `${fL.hz} + ${fR.hz}`,
+                    artwork: [
+                        // Aquí se asegura que la imagen de portada mantenga el formato 1:1
+                        { src: 'https://cdn-icons-png.flaticon.com/512/3048/3048122.png', sizes: '512x512', type: 'image/png' }
+                    ]
+                });
+            }
+        }
+
+        // ARRANQUE
         createVisualizer();
         initSelectors();
+        initMediaSession();
+
     </script>
 </body>
 </html>
