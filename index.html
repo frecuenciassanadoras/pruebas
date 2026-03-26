@@ -46,7 +46,7 @@
             padding: 20px;
         }
 
-        /* --- HEADER Y BOTÓN THEME --- */
+        /* --- HEADER Y BOTONES --- */
         .top-nav {
             width: 100%;
             max-width: 500px;
@@ -56,7 +56,7 @@
             margin-bottom: 30px;
         }
 
-        .menu-icon, .theme-btn {
+        .icon-btn {
             font-size: 1.5rem;
             color: var(--text-muted);
             cursor: pointer;
@@ -65,7 +65,43 @@
             border: none;
         }
         
-        .theme-btn:hover, .menu-icon:hover { color: var(--text-main); }
+        .icon-btn:hover { color: var(--text-main); }
+
+        /* --- MENÚ LATERAL (SIDEBAR) --- */
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(3px);
+            opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+
+        .sidebar {
+            position: fixed; top: 0; left: -280px; width: 260px; height: 100%;
+            background: var(--card-bg); z-index: 100;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+            transition: 0.3s ease-in-out;
+            padding: 30px 20px; display: flex; flex-direction: column;
+        }
+        .sidebar.active { left: 0; }
+        
+        .sidebar-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;
+        }
+        .sidebar-header h2 { font-size: 1.2rem; color: var(--text-main); margin: 0; font-weight: 800; letter-spacing: 1px;}
+        .sidebar-header h2 span { color: var(--color-left); }
+        .close-menu { color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: 0.3s;}
+        .close-menu:hover { color: #ef4444; }
+
+        /* Botón de Cerrar Sesión */
+        .logout-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px; 
+            padding: 14px; color: #ef4444; font-weight: 600; text-decoration: none;
+            border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px;
+            margin-top: auto; transition: 0.3s; background: rgba(239, 68, 68, 0.05);
+            font-size: 0.95rem;
+        }
+        .logout-btn:hover { background: #ef4444; color: #fff; box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3); }
 
         /* --- APP CONTAINER --- */
         .app-container {
@@ -76,16 +112,16 @@
             align-items: center;
         }
 
-        /* --- ORÁCULO (Texto Superior) --- */
+        /* --- ORÁCULO --- */
         .oracle-section {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             width: 100%;
         }
 
         .oracle-input {
             width: 100%;
-            background: var(--card-bg);
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
             color: var(--text-main);
             padding: 15px 20px;
@@ -94,7 +130,7 @@
             font-size: 0.95rem;
             margin-bottom: 15px;
             outline: none;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .oracle-input::placeholder { color: var(--text-muted); }
@@ -117,7 +153,7 @@
             line-height: 1.4;
             margin-top: 20px;
             color: var(--text-main);
-            min-height: 60px;
+            min-height: 30px;
         }
 
         /* --- VISUALIZADOR DE ONDAS --- */
@@ -127,7 +163,7 @@
             justify-content: center;
             gap: 4px;
             height: 120px;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             width: 100%;
         }
 
@@ -138,16 +174,13 @@
             transition: height 0.2s ease, background-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* Colorear mitad izquierda y derecha */
         .bar:nth-child(-n+15) { background-color: var(--color-left); }
         .bar:nth-child(n+16) { background-color: var(--color-right); }
 
-        /* Animación cuando está reproduciendo */
         .visualizer.playing .bar {
             animation: soundWave 1.2s infinite ease-in-out alternate;
         }
 
-        /* Sombras al reproducir */
         .visualizer.playing .bar:nth-child(-n+15) { box-shadow: 0 0 10px var(--color-left); }
         .visualizer.playing .bar:nth-child(n+16) { box-shadow: 0 0 10px var(--color-right); }
 
@@ -161,13 +194,12 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            /* El borde toma el gradiente de ambas frecuencias */
             background: linear-gradient(to right, var(--color-left), var(--color-right));
-            padding: 3px; /* Grosor del borde */
+            padding: 3px; 
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             cursor: pointer;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             transition: transform 0.3s;
@@ -178,7 +210,7 @@
         .play-btn-inner {
             width: 100%;
             height: 100%;
-            background-color: var(--bg-color);
+            background-color: var(--card-bg);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -188,12 +220,69 @@
             transition: background-color 0.4s ease;
         }
 
-        /* --- SELECTORES INFERIORES (Estilo App) --- */
+        /* --- CONTROLES DE TIEMPO Y PROGRESO --- */
+        .progress-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .time-labels {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .timer-select {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--text-main);
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        /* --- SELECTORES INFERIORES --- */
         .selectors-container {
             display: flex;
             justify-content: space-between;
             width: 100%;
             gap: 20px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
 
         .selector-box {
@@ -222,7 +311,7 @@
             text-align-last: center;
             outline: none;
             cursor: pointer;
-            appearance: none; /* Oculta la flecha por defecto */
+            appearance: none; 
         }
         
         .freq-select option {
@@ -234,9 +323,26 @@
         .selector-box.left .freq-select { color: var(--color-left); }
         .selector-box.right .freq-select { color: var(--color-right); }
 
-        /* Controles de Volumen (Ocultos pero funcionales) */
+        /* --- ORÁCULO DE SIGNIFICADO DE SINERGIA --- */
+        .synergy-meaning-box {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .synergy-meaning-box strong {
+            color: var(--text-main);
+        }
+
+        /* Controles de Volumen */
         .volume-control {
-            margin-top: 40px;
+            margin-top: 30px;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -245,23 +351,88 @@
             max-width: 300px;
         }
         
-        input[type="range"] {
+        .vol-slider {
             flex: 1;
             accent-color: var(--text-muted);
             height: 4px;
             background: var(--border-color);
             border-radius: 5px;
             outline: none;
+            -webkit-appearance: auto;
+        }
+
+        /* --- MODO MEDITACIÓN PROFUNDA (PANTALLA NEGRA) --- */
+        .meditation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .meditation-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+            cursor: pointer;
+        }
+
+        .meditation-text {
+            color: #333333; /* Texto muy tenue para no molestar la vista */
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-align: center;
+            animation: breathe 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes breathe {
+            0% { opacity: 0.2; transform: scale(0.98); }
+            100% { opacity: 0.8; transform: scale(1.02); }
         }
     </style>
 </head>
 <body>
 
+    <div class="meditation-overlay" id="meditation-overlay" onclick="toggleMeditationMode()">
+        <div class="meditation-text">
+            <i class="fas fa-headphones" style="font-size: 2rem; margin-bottom: 15px; display: block;"></i>
+            TOCA LA PANTALLA PARA SALIR
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>NEURO<span>SYNC</span></h2>
+            <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
+        </div>
+        
+        <div style="flex-grow: 1;"></div>
+        
+        <a href="https://reproductor-frecuencias.netlify.app/" onclick="sessionStorage.clear();" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </a>
+    </div>
+
     <div class="top-nav">
-        <i class="fas fa-bars menu-icon"></i>
-        <button class="theme-btn" onclick="toggleTheme()" id="theme-icon">
-            <i class="fas fa-sun"></i>
-        </button>
+        <i class="fas fa-bars icon-btn" onclick="toggleMenu()"></i>
+        
+        <div>
+            <button class="icon-btn" onclick="toggleMeditationMode()" title="Modo Meditación (Pantalla Negra)" style="margin-right: 15px;">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="icon-btn" onclick="toggleTheme()" id="theme-icon">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
     </div>
 
     <div class="app-container">
@@ -275,12 +446,26 @@
         </div>
 
         <div class="visualizer" id="visualizer">
-            </div>
+        </div>
 
         <div class="play-ring" onclick="toggleMasterPlay()">
             <div class="play-btn-inner" id="play-btn">
                 <i class="fas fa-play" style="margin-left: 5px;"></i>
             </div>
+        </div>
+
+        <div class="progress-wrapper">
+            <div class="time-labels">
+                <span id="time-current">00:00</span>
+                <select id="time-select" class="timer-select" onchange="handleTimerChange()">
+                    <option value="bucle">Bucle ∞</option>
+                    <option value="900">Apagar en 15 min</option>
+                    <option value="1800">Apagar en 30 min</option>
+                    <option value="3600">Apagar en 60 min</option>
+                </select>
+                <span id="time-total">00:00</span>
+            </div>
+            <input type="range" id="progress-bar" class="progress-bar" value="0" min="0" max="100" step="0.1">
         </div>
 
         <div class="selectors-container">
@@ -295,19 +480,23 @@
             </div>
         </div>
 
+        <div class="synergy-meaning-box" id="synergy-meaning">
+            Sinergia Activa: Selecciona tus frecuencias...
+        </div>
+
         <div class="volume-control">
             <i class="fas fa-volume-down"></i>
-            <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.8" onchange="changeVolume()">
+            <input type="range" id="vol-slider" class="vol-slider" min="0" max="1" step="0.05" value="0.8" onchange="changeVolume()">
             <i class="fas fa-volume-up"></i>
         </div>
 
     </div>
 
-    <audio id="audio-left" loop crossorigin="anonymous"></audio>
-    <audio id="audio-right" loop crossorigin="anonymous"></audio>
+    <audio id="audio-left" loop crossorigin="anonymous" playsinline preload="auto" x-webkit-airplay="allow"></audio>
+    <audio id="audio-right" loop crossorigin="anonymous" playsinline preload="auto" x-webkit-airplay="allow"></audio>
 
     <script>
-        // --- BASE DE DATOS (CON COLORES DINÁMICOS) ---
+        // --- BASE DE DATOS ---
         const frequencies = [
             { id: "111", hz: "111 Hz", desc: "Paz", color: "#f5f6fa", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/111+Hz.mp3?v=1" },
             { id: "174", hz: "174 Hz", desc: "Alivio", color: "#d4af37", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/174+Hz.mp3?v=1" },
@@ -333,6 +522,13 @@
         const volSlider = document.getElementById('vol-slider');
         const visualizer = document.getElementById('visualizer');
         const rootVars = document.documentElement.style;
+        
+        // REFERENCIAS NUEVAS
+        const progressBar = document.getElementById('progress-bar');
+        const timeCurrent = document.getElementById('time-current');
+        const timeTotal = document.getElementById('time-total');
+        const timeSelect = document.getElementById('time-select');
+        const synergyMeaning = document.getElementById('synergy-meaning');
 
         let isPlaying = false;
         let currentL_ID = null;
@@ -340,16 +536,15 @@
         
         let audioCtx, pannerL, pannerR;
         let isAudioApiInitialized = false;
+        let sessionTimer = null; // Para el apagado automático
 
         // 1. GENERAR BARRAS DEL VISUALIZADOR
         function createVisualizer() {
             for(let i = 0; i < 30; i++) {
                 let bar = document.createElement('div');
                 bar.classList.add('bar');
-                // Alturas base aleatorias
                 let baseHeight = Math.floor(Math.random() * 20) + 10;
                 bar.style.height = baseHeight + 'px';
-                // Delay aleatorio para efecto de onda real
                 bar.style.animationDelay = (Math.random() * 1.5) + 's';
                 visualizer.appendChild(bar);
             }
@@ -368,17 +563,24 @@
 
         function getFreqById(id) { return frequencies.find(f => f.id === id); }
 
-        // 3. ACTUALIZAR COLORES Y AUDIOS
+        // 3. ACTUALIZAR TEXTO DE SIGNIFICADO (ORÁCULO DE SINERGIA)
+        function updateSynergyMeaning(fL, fR) {
+            if(fL.id === fR.id) {
+                synergyMeaning.innerHTML = `Sintonización Pura: Estás potenciando la energía de <strong>${fL.desc}</strong> en ambos hemisferios. Ideal para meditación profunda.`;
+            } else {
+                synergyMeaning.innerHTML = `Sinergia Activa: Instalando <strong>${fL.desc}</strong> en tu plano subconsciente (Izquierdo), para proyectar y manifestar <strong>${fR.desc}</strong> en tu realidad consciente (Derecho).`;
+            }
+        }
+
+        // 4. ACTUALIZAR COLORES Y AUDIOS
         function updateUI() {
             const fL = getFreqById(selectLeft.value);
             const fR = getFreqById(selectRight.value);
             
-            // Llamamos a la API de Media Session para actualizar la info en pantalla de bloqueo
-            updateMediaMetadata(fL, fR);
-            
-            // Actualizar Variables CSS (Colores)
             rootVars.setProperty('--color-left', fL.color);
             rootVars.setProperty('--color-right', fR.color);
+            
+            updateSynergyMeaning(fL, fR); 
             
             let trackChanged = false;
 
@@ -399,10 +601,11 @@
             if(isPlaying && trackChanged) {
                 audioL.play().catch(e => console.log(e));
                 audioR.play().catch(e => console.log(e));
+                setupMediaSession(fL, fR); 
             }
         }
 
-        // 4. MOTOR BINAURAL (STEREO PANNING)
+        // 5. MOTOR BINAURAL (STEREO PANNING)
         function initWebAudioAPI() {
             if(isAudioApiInitialized) return;
 
@@ -428,7 +631,44 @@
             isAudioApiInitialized = true;
         }
 
-        // 5. PLAY / PAUSE
+        // 6. API MEDIA SESSION
+        function setupMediaSession(fL, fR) {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: `Sinergia: ${fL.hz} & ${fR.hz}`,
+                    artist: 'NeuroSync Sincronizador',
+                    album: `Izquierdo: ${fL.desc} | Derecho: ${fR.desc}`,
+                    // Usando una imagen genérica en 1:1, puedes cambiarla por tu logo 1:1 después
+                    artwork: [{ src: 'https://cdn-icons-png.flaticon.com/512/3048/3048122.png', sizes: '512x512', type: 'image/png' }]
+                });
+                navigator.mediaSession.setActionHandler('play', () => { if (!isPlaying) toggleMasterPlay(); });
+                navigator.mediaSession.setActionHandler('pause', () => { if (isPlaying) toggleMasterPlay(); });
+            }
+        }
+
+        // 7. LÓGICA DEL TEMPORIZADOR
+        function handleTimerChange() {
+            if(isPlaying) {
+                startSessionTimer();
+            }
+        }
+
+        function startSessionTimer() {
+            clearTimeout(sessionTimer); 
+            const duration = timeSelect.value;
+            
+            if (duration === "bucle") return; 
+
+            const totalMs = parseInt(duration) * 1000;
+            sessionTimer = setTimeout(() => {
+                if (isPlaying) {
+                    toggleMasterPlay(); 
+                    alert("Tu sesión de frecuencias cuánticas ha terminado. ¡Bien hecho!");
+                }
+            }, totalMs);
+        }
+
+        // 8. PLAY / PAUSE
         function toggleMasterPlay() {
             initWebAudioAPI();
             if(audioCtx.state === 'suspended') audioCtx.resume();
@@ -438,24 +678,32 @@
                 audioR.pause();
                 playBtn.innerHTML = '<i class="fas fa-play" style="margin-left: 5px;"></i>';
                 visualizer.classList.remove('playing');
+                clearTimeout(sessionTimer); 
             } else {
                 updateUI();
-                audioL.play().catch(e => console.log("CORS/Autoplay L"));
-                audioR.play().catch(e => console.log("CORS/Autoplay R"));
+                audioL.play().catch(e => console.log(e));
+                audioR.play().catch(e => console.log(e));
                 
                 playBtn.innerHTML = '<i class="fas fa-pause"></i>';
                 visualizer.classList.add('playing');
+                
+                setupMediaSession(getFreqById(selectLeft.value), getFreqById(selectRight.value));
+                startSessionTimer(); 
             }
             isPlaying = !isPlaying;
+
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused";
+            }
         }
 
-        // 6. VOLUMEN
+        // 9. VOLUMEN
         function changeVolume() {
             audioL.volume = volSlider.value;
             audioR.volume = volSlider.value;
         }
 
-        // 7. MODO CLARO / OSCURO
+        // 10. MODO CLARO / OSCURO
         function toggleTheme() {
             const body = document.body;
             const themeIcon = document.getElementById('theme-icon');
@@ -469,7 +717,7 @@
             }
         }
 
-        // 8. ORÁCULO
+        // 11. ORÁCULO DE BÚSQUEDA
         function analyzeEnergy() {
             const input = document.getElementById('oracle-input').value.toLowerCase();
             const resultText = document.getElementById('oracle-result');
@@ -498,43 +746,92 @@
 
             resultText.innerHTML = msg;
             
-            // Aplicar automáticamente
             selectLeft.value = recLeft;
             selectRight.value = recRight;
             updateUI();
             if(!isPlaying) toggleMasterPlay();
         }
 
-        // 9. REPRODUCCIÓN EN SEGUNDO PLANO (MEDIA SESSION API)
-        function initMediaSession() {
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.setActionHandler('play', () => {
-                    if (!isPlaying) toggleMasterPlay();
-                });
-                navigator.mediaSession.setActionHandler('pause', () => {
-                    if (isPlaying) toggleMasterPlay();
-                });
+        // 12. FUNCIÓN DEL MENÚ LATERAL
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // 13. ACTUALIZACIÓN DE BARRA DE TIEMPO
+        function formatTime(seconds) {
+            if(isNaN(seconds)) return "00:00";
+            let m = Math.floor(seconds / 60);
+            let s = Math.floor(seconds % 60);
+            return (m < 10 ? '0'+m : m) + ':' + (s < 10 ? '0'+s : s);
+        }
+
+        audioL.addEventListener('timeupdate', () => {
+            if (!audioL.duration) return;
+            const progress = (audioL.currentTime / audioL.duration) * 100;
+            progressBar.value = progress;
+            timeCurrent.textContent = formatTime(audioL.currentTime);
+            timeTotal.textContent = formatTime(audioL.duration);
+        });
+
+        progressBar.addEventListener('input', (e) => {
+            if(!audioL.duration) return;
+            const seekTime = (e.target.value / 100) * audioL.duration;
+            audioL.currentTime = seekTime;
+            audioR.currentTime = seekTime;
+        });
+
+        // 14. LÓGICA DEL WAKE LOCK Y MODO MEDITACIÓN
+        let wakeLock = null;
+        const meditationOverlay = document.getElementById('meditation-overlay');
+        let isMeditationMode = false;
+
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Wake Lock activado: Pantalla encendida.');
+                }
+            } catch (err) {
+                console.error(`Error de Wake Lock: ${err.name}, ${err.message}`);
             }
         }
 
-        function updateMediaMetadata(fL, fR) {
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: `Sinergia: ${fL.desc} y ${fR.desc}`,
-                    artist: 'NeuroSync',
-                    album: `${fL.hz} + ${fR.hz}`,
-                    artwork: [
-                        // Aquí se asegura que la imagen de portada mantenga el formato 1:1
-                        { src: 'https://cdn-icons-png.flaticon.com/512/3048/3048122.png', sizes: '512x512', type: 'image/png' }
-                    ]
-                });
+        function releaseWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release()
+                    .then(() => { wakeLock = null; console.log('Wake Lock liberado.'); });
             }
         }
+
+        function toggleMeditationMode() {
+            isMeditationMode = !isMeditationMode;
+            if (isMeditationMode) {
+                meditationOverlay.classList.add('active');
+                requestWakeLock();
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(err => console.log(err));
+                }
+            } else {
+                meditationOverlay.classList.remove('active');
+                releaseWakeLock();
+                if (document.fullscreenElement) {
+                    document.exitFullscreen().catch(err => console.log(err));
+                }
+            }
+        }
+
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible' && isMeditationMode) {
+                requestWakeLock();
+            }
+        });
 
         // ARRANQUE
         createVisualizer();
         initSelectors();
-        initMediaSession();
 
     </script>
 </body>
