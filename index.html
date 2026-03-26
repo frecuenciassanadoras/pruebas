@@ -9,20 +9,16 @@
     <style>
         /* --- VARIABLES DE TEMA --- */
         :root {
-            /* Modo Oscuro (Por defecto, basado en tu imagen) */
             --bg-color: #16162a;
             --card-bg: #22223b;
             --text-main: #ffffff;
             --text-muted: #8b8ea5;
             --border-color: rgba(255, 255, 255, 0.1);
-            
-            /* Colores Dinámicos (Se actualizan por JS) */
             --color-left: #00d4ff;
             --color-right: #a64bf4;
         }
 
         [data-theme="light"] {
-            /* Modo Claro */
             --bg-color: #f4f5f9;
             --card-bg: #ffffff;
             --text-main: #1a1a2e;
@@ -93,7 +89,6 @@
         .close-menu { color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: 0.3s;}
         .close-menu:hover { color: #ef4444; }
 
-        /* Botón de Cerrar Sesión */
         .logout-btn {
             display: flex; align-items: center; justify-content: center; gap: 10px; 
             padding: 14px; color: #ef4444; font-weight: 600; text-decoration: none;
@@ -386,7 +381,7 @@
         }
 
         .meditation-text {
-            color: #333333; /* Texto muy tenue para no molestar la vista */
+            color: #333333; 
             font-size: 0.9rem;
             letter-spacing: 2px;
             text-align: center;
@@ -403,8 +398,8 @@
 
     <div class="meditation-overlay" id="meditation-overlay" onclick="toggleMeditationMode()">
         <div class="meditation-text">
-            <i class="fas fa-headphones" style="font-size: 2rem; margin-bottom: 15px; display: block;"></i>
-            TOCA LA PANTALLA PARA SALIR
+            <i class="fas fa-lock" style="font-size: 2rem; margin-bottom: 15px; display: block;"></i>
+            PANTALLA BLOQUEADA<br>TOCA PARA SALIR
         </div>
     </div>
 
@@ -426,8 +421,8 @@
         <i class="fas fa-bars icon-btn" onclick="toggleMenu()"></i>
         
         <div>
-            <button class="icon-btn" onclick="toggleMeditationMode()" title="Modo Meditación (Pantalla Negra)" style="margin-right: 15px;">
-                <i class="fas fa-moon"></i>
+            <button class="icon-btn" onclick="toggleMeditationMode()" title="Bloquear Pantalla (Modo Meditación)" style="margin-right: 15px;">
+                <i class="fas fa-lock"></i>
             </button>
             <button class="icon-btn" onclick="toggleTheme()" id="theme-icon">
                 <i class="fas fa-sun"></i>
@@ -513,7 +508,6 @@
             { id: "999", hz: "999 Hz", desc: "Cierre", color: "#eccc68", url: "https://f005.backblazeb2.com/file/mis-frecuencias-musicales/999+Hz.mp3?v=1" }
         ];
 
-        // REFERENCIAS
         const selectLeft = document.getElementById('select-left');
         const selectRight = document.getElementById('select-right');
         const audioL = document.getElementById('audio-left');
@@ -523,7 +517,6 @@
         const visualizer = document.getElementById('visualizer');
         const rootVars = document.documentElement.style;
         
-        // REFERENCIAS NUEVAS
         const progressBar = document.getElementById('progress-bar');
         const timeCurrent = document.getElementById('time-current');
         const timeTotal = document.getElementById('time-total');
@@ -536,9 +529,8 @@
         
         let audioCtx, pannerL, pannerR;
         let isAudioApiInitialized = false;
-        let sessionTimer = null; // Para el apagado automático
+        let sessionTimer = null;
 
-        // 1. GENERAR BARRAS DEL VISUALIZADOR
         function createVisualizer() {
             for(let i = 0; i < 30; i++) {
                 let bar = document.createElement('div');
@@ -550,7 +542,6 @@
             }
         }
 
-        // 2. INICIALIZAR SELECTORES
         function initSelectors() {
             frequencies.forEach(f => {
                 selectLeft.add(new Option(`${f.hz} - ${f.desc}`, f.id));
@@ -563,7 +554,6 @@
 
         function getFreqById(id) { return frequencies.find(f => f.id === id); }
 
-        // 3. ACTUALIZAR TEXTO DE SIGNIFICADO (ORÁCULO DE SINERGIA)
         function updateSynergyMeaning(fL, fR) {
             if(fL.id === fR.id) {
                 synergyMeaning.innerHTML = `Sintonización Pura: Estás potenciando la energía de <strong>${fL.desc}</strong> en ambos hemisferios. Ideal para meditación profunda.`;
@@ -572,7 +562,6 @@
             }
         }
 
-        // 4. ACTUALIZAR COLORES Y AUDIOS
         function updateUI() {
             const fL = getFreqById(selectLeft.value);
             const fR = getFreqById(selectRight.value);
@@ -605,7 +594,6 @@
             }
         }
 
-        // 5. MOTOR BINAURAL (STEREO PANNING)
         function initWebAudioAPI() {
             if(isAudioApiInitialized) return;
 
@@ -617,9 +605,9 @@
 
             if(audioCtx.createStereoPanner) {
                 pannerL = audioCtx.createStereoPanner();
-                pannerL.pan.value = -1; // 100% Izquierdo
+                pannerL.pan.value = -1;
                 pannerR = audioCtx.createStereoPanner();
-                pannerR.pan.value = 1;  // 100% Derecho
+                pannerR.pan.value = 1;
             } else {
                 pannerL = audioCtx.createPanner(); pannerL.setPosition(-1, 0, 0);
                 pannerR = audioCtx.createPanner(); pannerR.setPosition(1, 0, 0);
@@ -631,14 +619,12 @@
             isAudioApiInitialized = true;
         }
 
-        // 6. API MEDIA SESSION
         function setupMediaSession(fL, fR) {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: `Sinergia: ${fL.hz} & ${fR.hz}`,
                     artist: 'NeuroSync Sincronizador',
                     album: `Izquierdo: ${fL.desc} | Derecho: ${fR.desc}`,
-                    // Usando una imagen genérica en 1:1, puedes cambiarla por tu logo 1:1 después
                     artwork: [{ src: 'https://cdn-icons-png.flaticon.com/512/3048/3048122.png', sizes: '512x512', type: 'image/png' }]
                 });
                 navigator.mediaSession.setActionHandler('play', () => { if (!isPlaying) toggleMasterPlay(); });
@@ -646,7 +632,6 @@
             }
         }
 
-        // 7. LÓGICA DEL TEMPORIZADOR
         function handleTimerChange() {
             if(isPlaying) {
                 startSessionTimer();
@@ -668,7 +653,6 @@
             }, totalMs);
         }
 
-        // 8. PLAY / PAUSE
         function toggleMasterPlay() {
             initWebAudioAPI();
             if(audioCtx.state === 'suspended') audioCtx.resume();
@@ -697,13 +681,11 @@
             }
         }
 
-        // 9. VOLUMEN
         function changeVolume() {
             audioL.volume = volSlider.value;
             audioR.volume = volSlider.value;
         }
 
-        // 10. MODO CLARO / OSCURO
         function toggleTheme() {
             const body = document.body;
             const themeIcon = document.getElementById('theme-icon');
@@ -717,7 +699,6 @@
             }
         }
 
-        // 11. ORÁCULO DE BÚSQUEDA
         function analyzeEnergy() {
             const input = document.getElementById('oracle-input').value.toLowerCase();
             const resultText = document.getElementById('oracle-result');
@@ -752,7 +733,6 @@
             if(!isPlaying) toggleMasterPlay();
         }
 
-        // 12. FUNCIÓN DEL MENÚ LATERAL
         function toggleMenu() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
@@ -760,7 +740,6 @@
             overlay.classList.toggle('active');
         }
 
-        // 13. ACTUALIZACIÓN DE BARRA DE TIEMPO
         function formatTime(seconds) {
             if(isNaN(seconds)) return "00:00";
             let m = Math.floor(seconds / 60);
@@ -783,7 +762,6 @@
             audioR.currentTime = seekTime;
         });
 
-        // 14. LÓGICA DEL WAKE LOCK Y MODO MEDITACIÓN
         let wakeLock = null;
         const meditationOverlay = document.getElementById('meditation-overlay');
         let isMeditationMode = false;
@@ -829,7 +807,6 @@
             }
         });
 
-        // ARRANQUE
         createVisualizer();
         initSelectors();
 
